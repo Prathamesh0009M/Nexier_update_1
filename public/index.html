@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <style>
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+
+    <!-- Input fields for message details -->
+    <label for="conversationId">Conversation ID:</label>
+    <input type="text" id="conversationId" placeholder="Enter Conversation ID" /><br/>
+
+    <label for="senderId">Sender ID:</label>
+    <input type="text" id="senderId" placeholder="Enter Sender ID" /><br/>
+
+    <label for="recipientId">Recipient ID:</label>
+    <input type="text" id="recipientId" placeholder="Enter Recipient ID" /><br/>
+
+    <label for="content">Message Content:</label>
+    <textarea id="content" placeholder="Enter message content"></textarea><br/>
+
+    <button id="sendMessageButton">Send Message</button>
+
+    <!-- Div to display messages -->
+    <div id="messages"></div>
+
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:5000'); // Connect to your server
+
+        // Automatically join the conversation room
+        const conversationId = '66e67553004e6699c44054ef'; // Replace with actual conversation ID
+        socket.emit('joinConversation', { conversationId });
+
+        socket.on('connect', () => {
+            console.log('Connected to WebSocket server');
+        });
+
+        // Listen for incoming messages
+        socket.on('receiveMessage', (data) => {
+            console.log('Received message:', data);
+
+            // Display the received message
+            displayMessage(data);
+        });
+
+        // Function to send a message
+        function sendMessage() {
+            const senderId = document.getElementById('senderId').value;
+            const recipientId = document.getElementById('recipientId').value;
+            const content = document.getElementById('content').value;
+
+            // Emit the message to the server
+            socket.emit('sendMessage', {
+                senderId,
+                recipientId,
+                content,
+                conversationId // Ensure this is the correct conversation ID
+            });
+
+            // Display the sent message
+            displayMessage({
+                sender: senderId,
+                content: content,
+                sentAt: new Date().toISOString()
+            });
+        }
+
+        // Function to display a message in the messages div
+        function displayMessage(message) {
+            const messagesDiv = document.getElementById('messages');
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = `
+                <p><strong>Sender:</strong> ${message.sender}</p>
+                <p><strong>Content:</strong> ${message.content}</p>
+                <p><strong>Sent At:</strong> ${new Date(message.sentAt).toLocaleString()}</p>
+                <hr/>
+            `;
+            messagesDiv.appendChild(messageElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+        }
+
+        // Attach event listener to the button
+        document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
+    </script>
+</body>
+</html>

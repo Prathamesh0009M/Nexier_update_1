@@ -1,0 +1,167 @@
+1. Users Collection
+Stores information about students using the platform.
+
+_id: Unique identifier for each user.
+name: Full name of the user.
+email: User’s college email address (also used for login).
+password: Hashed password for secure authentication.
+college_id: College ID number for verification purposes.
+profile_picture: URL to the user’s profile picture.
+phone_number: Contact number (optional).
+address: Address or hostel details (optional).
+verified: Boolean to indicate if the user's college ID is verified.
+points: Points accumulated through platform activities (if using gamification).
+created_at: Timestamp when the user account was created.
+updated_at: Timestamp when the user details were last updated.
+2. Items Collection
+Stores details about the items listed for sale.
+
+_id: Unique identifier for each item.
+seller_id: Reference to the user who is selling the item (user._id).
+title: Name or title of the item (e.g., "Scientific Calculator").
+description: Detailed description of the item.
+price: Price at which the item is being sold.
+category: Category of the item (e.g., "Calculators", "Drafters").
+condition: Condition of the item (e.g., New, Like New, Used).
+images: Array of URLs pointing to images of the item.
+status: Status of the item (e.g., Available, Sold, Reserved).
+location: Location where the item is available (optional).
+views: Number of times the item has been viewed.
+bids: Array of bids placed on the item (if using a bidding system).
+created_at: Timestamp when the item was listed.
+updated_at: Timestamp when the item details were last updated.
+3. Transactions Collection
+Tracks all transactions made on the platform.
+
+_id: Unique identifier for each transaction.
+item_id: Reference to the item being transacted (item._id).
+buyer_id: Reference to the user buying the item (user._id).
+seller_id: Reference to the user selling the item (user._id).
+amount: Final transaction amount.
+payment_status: Status of payment (e.g., Pending, Completed).
+transaction_type: Type of transaction (e.g., Sale, Rental, Exchange).
+escrow_status: Status of escrow (if using an escrow system).
+rating: Rating given by the buyer (optional).
+review: Review given by the buyer (optional).
+created_at: Timestamp when the transaction was initiated.
+completed_at: Timestamp when the transaction was completed.
+4. Chats Collection
+Stores messages exchanged between users.
+
+_id: Unique identifier for each chat thread.
+participants: Array of user IDs involved in the chat (user._id).
+messages: Array of message objects containing:
+sender_id: ID of the user who sent the message.
+text: Message content.
+timestamp: When the message was sent.
+status: Status of the message (e.g., Sent, Delivered, Read).
+created_at: Timestamp when the chat was initiated.
+updated_at: Timestamp when the last message was sent.
+5. Bids Collection (Optional)
+If implementing a bidding system.
+
+_id: Unique identifier for each bid.
+item_id: Reference to the item being bid on (item._id).
+bidder_id: Reference to the user placing the bid (user._id).
+amount: Amount of the bid.
+status: Status of the bid (e.g., Active, Withdrawn, Accepted).
+created_at: Timestamp when the bid was placed.
+6. Notifications Collection
+Stores notifications sent to users.
+
+_id: Unique identifier for each notification.
+user_id: Reference to the user receiving the notification (user._id).
+type: Type of notification (e.g., New Message, Item Sold).
+message: Notification content.
+read: Boolean indicating whether the notification has been read.
+created_at: Timestamp when the notification was sent.
+7. Reviews Collection (Optional)
+If implementing a review system.
+
+_id: Unique identifier for each review.
+item_id: Reference to the item being reviewed (item._id).
+reviewer_id: Reference to the user leaving the review (user._id).
+rating: Numerical rating given by the reviewer.
+comment: Textual review or comment.
+created_at: Timestamp when the review was posted.
+8. Wish Lists Collection (Optional)
+For users to save items they are interested in.
+
+_id: Unique identifier for each wish list.
+user_id: Reference to the user owning the wish list (user._id).
+items: Array of item IDs (item._id) that the user has saved.
+created_at: Timestamp when the wish list was created.
+9. Reports Collection (Optional)
+For handling reported items or users.
+
+_id: Unique identifier for each report.
+reporter_id: Reference to the user who filed the report (user._id).
+reported_user_id: Reference to the user being reported (user._id).
+item_id: Reference to the item being reported (if applicable) (item._id).
+reason: Reason for the report.
+status: Status of the report (e.g., Pending, Resolved).
+created_at: Timestamp when the report was filed.
+These fields should give you a comprehensive structure to manage users, items, transactions, and other functionalities on your platform.
+
+
+
+
+
+
+You said:
+tem Rental Service
+
+Exchange Offers
+tell me for this also 
+ChatGPT said:
+ChatGPT
+To implement Item Rental Service and Exchange Offers, you'll need to introduce additional fields or collections to your database to handle these specific functionalities.
+
+1. Item Rental Service
+The rental service allows users to rent items for a specified period. Below are the necessary fields and modifications to the database:
+
+Items Collection (Additions)
+rental_available: Boolean to indicate if the item is available for rent.
+rental_price: Price per day/week/month for renting the item.
+rental_duration: Maximum duration for which the item can be rented (e.g., 7 days, 1 month).
+rented: Boolean to indicate if the item is currently rented out.
+rental_terms: Text field to describe any terms and conditions related to renting the item.
+Rentals Collection (New Collection)
+_id: Unique identifier for each rental transaction.
+item_id: Reference to the item being rented (item._id).
+renter_id: Reference to the user renting the item (user._id).
+owner_id: Reference to the user owning the item (user._id).
+rental_price: Agreed rental price.
+rental_start_date: Start date of the rental period.
+rental_end_date: End date of the rental period.
+rental_status: Status of the rental (e.g., Ongoing, Completed, Overdue).
+security_deposit: Amount of deposit (if applicable).
+return_status: Status indicating if the item has been returned (e.g., Pending, Returned).
+created_at: Timestamp when the rental was initiated.
+updated_at: Timestamp when the rental details were last updated.
+Transactions Collection (Additions)
+rental_transaction_id: Reference to the rental transaction (if the item is rented) (rentals._id).
+rental_payment_status: Payment status for the rental transaction (e.g., Pending, Completed).
+2. Exchange Offers
+Exchange offers allow users to exchange one item for another instead of selling it outright. Here’s how to structure your database for this feature:
+
+Items Collection (Additions)
+exchange_available: Boolean to indicate if the item is available for exchange.
+desired_exchange_items: Array of item categories or specific items the seller is willing to accept in exchange.
+Exchanges Collection (New Collection)
+_id: Unique identifier for each exchange transaction.
+item_id: Reference to the item being offered for exchange (item._id).
+offered_item_id: Reference to the item being offered in return by another user (item._id).
+owner_id: Reference to the user offering their item for exchange (user._id).
+offerer_id: Reference to the user making an exchange offer (user._id).
+exchange_status: Status of the exchange (e.g., Proposed, Accepted, Declined).
+exchange_date: Date when the exchange was agreed upon or completed.
+created_at: Timestamp when the exchange was initiated.
+updated_at: Timestamp when the exchange details were last updated.
+Users Collection (Additions)
+exchange_history: Array of completed exchanges for each user.
+3. Notifications Collection (Additions)
+rental_notifications: Array of notifications related to rentals, such as reminders for return dates.
+exchange_notifications: Array of notifications related to exchange offers, such as new exchange proposals or acceptance.
+4. Wish Lists Collection (Additions)
+desired_items_for_exchange: Array of item IDs or categories that the user is interested in for exchanges.
