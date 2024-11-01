@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 // CORS setup for HTTP requests
 app.use(cors({
-    origin: 'https://nexier.vercel.app/',  // Allow this origin
+    origin: 'https://nexier.vercel.app',  // Allow this origin
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
@@ -68,7 +68,7 @@ app.get('/data', (req, res) => {
 const server = http.createServer(app);
 const io = socketIO(server, {
     cors: {
-        origin: 'https://nexier.vercel.app/',  // Allow this origin for WebSocket connections
+        origin: 'https://nexier.vercel.app',  // Allow this origin for WebSocket connections
         methods: ['GET', 'POST'],
         credentials: true
     }
