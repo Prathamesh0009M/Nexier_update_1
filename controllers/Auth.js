@@ -1,7 +1,9 @@
 const User = require("../models/User");
 const OTP = require("../models/OTP");
 const otpgenrater = require("otp-generator");
-const bcrypt = require('bcrypt');
+// changed 
+
+const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const Profile = require("../models/Profile");
 const ConverSation = require("../models/ConverSation");
