@@ -41,7 +41,7 @@ database.connect();
 cloud.cloudinaryconnect();
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // Define your routes
 const userRoutes = require('./routes/User');
