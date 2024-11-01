@@ -51,6 +51,19 @@ app.use('/api/v1/auth', userRoutes);
 app.use('/api/v1/item', itemsRoutes);
 app.use('/api/v1/profile', profileRoute);
 
+app.get('/data', (req, res) => {
+    const sampleData = {
+        message: 'Hello, this is your JSON response!',
+        data: [
+            { id: 1, name: 'Item 1' },
+            { id: 2, name: 'Item 2' },
+            { id: 3, name: 'Item 3' }
+        ]
+    };
+    res.json(sampleData);
+});
+
+
 // Set up server and socket.io
 const server = http.createServer(app);
 const io = socketIO(server, {
