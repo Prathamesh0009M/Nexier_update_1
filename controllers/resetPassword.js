@@ -32,7 +32,7 @@ exports.resetPasswordToken = async (req, res) => {
 
         // create url 
 
-        const url = `http://localhost:3000/update-password/${token}`;
+        const url = `https://nexier.vercel.app/update-password/${token}`;
 
         const htmlContent = emailTemplate(url); // Generate the HTML content
         await mailSender(email, "Password Reset Link", htmlContent);
