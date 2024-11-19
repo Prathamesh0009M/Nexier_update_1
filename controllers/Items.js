@@ -218,7 +218,7 @@ exports.editItemDetails = async (req, res) => {
 
 exports.getAllProduct = async (req, res) => {
     try {
-
+console.log("SomeOne Hits Website");
         const allProduct = await Item.find({}).sort({ createdAt: -1 });
 
         if (!allProduct) {
