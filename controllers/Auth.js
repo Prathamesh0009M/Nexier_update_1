@@ -78,9 +78,14 @@ exports.sendOTP = async (req, res) => {
 exports.signUp = async (req, res) => {
     try {
         // data fetch  from req ki body
-        const { firstName, lastName, email, password, confirmPassword, accountType, contactNumber, otp, collegeId, commonChatId, YearAndBranch } = req.body;
+        const { firstName, lastName, email, password, confirmPassword,
+            // accountType,
+            // contactNumber,
+            otp,
+            // collegeId,
+            commonChatId, YearAndBranch } = req.body;
 
-        
+
 
         // validation karlo 
         if (!firstName || !lastName || !email || !password || !confirmPassword || !otp || !YearAndBranch) {
@@ -114,8 +119,8 @@ exports.signUp = async (req, res) => {
 
         // find most recent otp stored for the user 
         const recentOTP = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
-       
-        
+
+
 
         // console.log("i am here with otp :- ", otp);
         // validation OTP 
@@ -144,21 +149,21 @@ exports.signUp = async (req, res) => {
             dateOfBirth: null,
             contactNumber: null,
             about: null,
-            
+
         });
 
         const user = await User.create({
             firstName,
             lastName,
             email,
-            contactNumber,
+            // contactNumber,
             password: hashedPassword,
-            accountType:email=='prathameshj776@gmail.com'?'Admin':"Student",
-            collegeId,
+            accountType: email == 'prathameshj776@gmail.com' ? 'Admin' : "Student",
+            // collegeId,
             additionaldetail: profileDetail._id,
             YearAndBranch,
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
-            intrestedIn:accountType,
+            // intrestedIn: accountType ? accountType : null,
         })
 
         const updateConverseId = await User.findByIdAndUpdate(user._id,
