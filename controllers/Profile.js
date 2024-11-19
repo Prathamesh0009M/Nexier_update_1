@@ -9,7 +9,7 @@ const mailsender = require('../utils/mailSender'); // Import the mail sender uti
 
 exports.updateProfile = async (req, res) => {
     try {
-        const { firstName, lastName, dateOfBirth = "", about = "", contactNumber, gender } = req.body;
+        const { firstName, lastName, dateOfBirth = "", about = "", contactNumber, gender,intrestedIn,collegeId } = req.body;
 
         const id = req.user.id;
         // console.log(id);
@@ -38,6 +38,9 @@ exports.updateProfile = async (req, res) => {
 
         userDetails.firstName = firstName;
         userDetails.lastName = lastName;
+        userDetails.contactNumber = contactNumber;
+        userDetails.intrestedIn = intrestedIn;
+        userDetails.collegeId = collegeId;
         await userDetails.save();
 
 
