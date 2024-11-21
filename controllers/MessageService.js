@@ -21,7 +21,7 @@ const generateEmailContent = (newProducts) => {
         <p style="text-align: center; font-size: 16px; color: #333;">
             Don't miss the chance to grab these items before they're gone! 
             <br><br>
-            <a href="https://yourwebsite.com" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+            <a href="https://nexier.vercel.app/" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
                 Visit Nexier Platform Now
             </a>
         </p>
