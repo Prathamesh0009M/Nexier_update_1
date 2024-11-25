@@ -29,7 +29,7 @@ exports.sendOTP = async (req, res) => {
         }
 
         // or generate otp 
-        var otp = otpgenrater.generate(6, {
+        var otp = otpgenrater.generate(4, {
             upperCaseAlphabets: false,
             lowerCaseAlphabets: false,
             specialChars: false,
@@ -41,7 +41,7 @@ exports.sendOTP = async (req, res) => {
         var result = await OTP.findOne({ otp: otp });
 
         while (result) {
-            otp = otpgenrater(6, {
+            otp = otpgenrater(4, {
                 upperCaseAlphabets: false,
                 lowerCaseAlphabets: false,
                 specialChars: false,
