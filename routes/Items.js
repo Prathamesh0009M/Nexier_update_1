@@ -6,7 +6,7 @@ const router = express.Router();
 const { createCategory, showAllCategory,categoryPageDetails } = require("../controllers/Category")
 
 const { createProduct, getAllProduct, getProductDetails, ownersAllProduct, deleteProduct, views
-    , bids, finalBidsResult,editItemDetails,StatusChange,advanceSearch
+    , bids, finalBidsResult,editItemDetails,StatusChange,advanceSearch,contactSeller
 } = require("../controllers/Items")
 
 
@@ -31,6 +31,7 @@ router.post("/views", views);
 
 router.post("/bids", auth, bids);
 router.post("/finalBidsResult", auth, finalBidsResult);
+router.post("/contactSeller", contactSeller);
 
 
 
