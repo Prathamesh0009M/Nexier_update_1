@@ -6,6 +6,122 @@ const mongoose = require("mongoose");
 const Category = require("../models/Category");
 const { uploadImageToCloudinary } = require('../utils/imageUploader');
 
+
+const mailsender = require('../utils/mailSender');
+
+exports.contactSeller = async (req, res) => {
+    const { name, email, message, sellerEmail } = req.body;
+    console.log(name, email, message, sellerEmail);
+
+
+    // Basic validation
+    if (!name || !email || !message || !sellerEmail) {
+        return res.status(400).json({ success: false, message: 'All fields are required' });
+    }
+
+    // HTML email template
+    const emailTemplate = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact Request</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+            .email-container {
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            .header {
+                background-color: #007bff;
+                color: #ffffff;
+                text-align: center;
+                padding: 20px;
+            }
+            .header h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .content p {
+                margin: 10px 0;
+                line-height: 1.6;
+                font-size: 16px;
+                color: #333333;
+            }
+            .button-container {
+                text-align: center;
+                margin: 20px 0;
+            }
+            .button-container a {
+                text-decoration: none;
+                background-color: #007bff;
+                color: #ffffff;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            .footer {
+                text-align: center;
+                padding: 15px;
+                background-color: #f4f4f4;
+                font-size: 12px;
+                color: #777777;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <div class="header">
+                <h1>New Purchase Request</h1>
+            </div>
+            <div class="content">
+                <p>Dear Seller,</p>
+                <p><strong>${name}</strong> has shown interest in purchasing your item.</p>
+                <p><strong>Contact Details:</strong></p>
+                <ul>
+                    <li><strong>Name:</strong> ${name}</li>
+                    <li><strong>Email:</strong> ${email}</li>
+                </ul>
+                <p><strong>Message:</strong></p>
+                <p>${message}</p>
+                <div class="button-container">
+                    <a href="https://nexier.vercel.app/" target="_blank">Visit Website</a>
+                </div>
+                <p>Please get in touch with the buyer at your earliest convenience to proceed with the transaction.</p>
+            </div>
+            <div class="footer">
+                <p>This is an automated message. Please do not reply to this email directly.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
+    try {
+        // Send the email
+        console.log("Response is");
+     const response=   await mailsender(sellerEmail, "DBATU Smart Mart", emailTemplate);
+
+
+        res.status(200).json({ success: true, message: 'Message sent successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error sending message' });
+    }
+};
+
 // Create your Product
 exports.createProduct = async (req, res) => {
     try {
